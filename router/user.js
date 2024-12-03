@@ -3,6 +3,10 @@ const router = new Router();
 router.prefix('/user');
 
 router.get('/', async (ctx, next) => {
+    ctx.redirect('/user/list');
+    // ctx.body = '用户列表';
+});
+router.get('/list', async (ctx, next) => {
     ctx.body = '用户列表';
 });
 router.post('/add', async (ctx, next) => {
