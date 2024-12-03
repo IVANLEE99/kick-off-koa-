@@ -6,8 +6,10 @@ router.get('/', async (ctx, next) => {
     ctx.body = '用户列表';
 });
 router.post('/add', async (ctx, next) => {
+    console.log(ctx.request.body);
+    console.log('-------');
     ctx.body = '创建用户';
-    next();
+    // next();
 });
 router.put('/update', async (ctx, next) => {
     ctx.body = '更新用户';
