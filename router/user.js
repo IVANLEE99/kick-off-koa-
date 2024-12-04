@@ -8,13 +8,23 @@ router.get('/', async (ctx, next) => {
 });
 router.get('/list', async (ctx, next) => {
     // ctx.cookies.set('username', 'youngs');
+    // ctx.cookies.set('username', 'youngs', {
+    //     maxAge: 1000 * 60 * 60 * 24 * 7,
+    //     // path: '/user',
+    //     // httpOnly: false,
+    // });
+    let username = ctx.cookies.get('username');
     ctx.cookies.set('username', 'youngs', {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         // path: '/user',
         // httpOnly: false,
     });
-    let username = ctx.cookies.get('username');
-    ctx.body = '用户列表' + username;
+    if (username) {
+        ctx.body = '用户列表' + username;
+    } else {
+        ctx.body = '用户列表';
+    }
+
 });
 router.post('/add', async (ctx, next) => {
     console.log(ctx.request.body);
@@ -28,9 +38,11 @@ router.put('/update', async (ctx, next) => {
 router.delete('/delete', async (ctx, next) => {
     ctx.body = '删除用户';
 });
-router.get('/:id', async (ctx, next) => {
+router.get('/detail/:id', async (ctx, next) => {
     console.log(ctx.params);
     console.log(ctx.query);
-    ctx.body = '用户详情';
+    let count = ctx.session.count || 0;
+    ctx.session.count = ++count;
+    ctx.body = '用户详情' + count;
 });
 module.exports = router;
