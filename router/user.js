@@ -7,7 +7,14 @@ router.get('/', async (ctx, next) => {
     // ctx.body = '用户列表';
 });
 router.get('/list', async (ctx, next) => {
-    ctx.body = '用户列表';
+    // ctx.cookies.set('username', 'youngs');
+    ctx.cookies.set('username', 'youngs', {
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        // path: '/user',
+        // httpOnly: false,
+    });
+    let username = ctx.cookies.get('username');
+    ctx.body = '用户列表' + username;
 });
 router.post('/add', async (ctx, next) => {
     console.log(ctx.request.body);
