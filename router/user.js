@@ -1,10 +1,35 @@
 const Router = require('@koa/router');
 const router = new Router();
+const auth = require('../middleware/auth');
 router.prefix('/user');
 
 router.get('/', async (ctx, next) => {
     ctx.redirect('/user/list');
     // ctx.body = '用户列表';
+});
+router.post('/login', async (ctx, next) => {
+    ctx.session.username = ctx.request.body.username;
+    ctx.body = {
+        ok: 1,
+        msg: '登录成功',
+    };
+});
+router.post('/logout', async (ctx, next) => {
+    if (ctx.session.username) {
+        delete ctx.session.username;
+    }
+    ctx.body = {
+        ok: 1,
+        msg: '退出成功',
+    };
+});
+
+router.get('/getUser', auth, async (ctx, next) => {
+
+    ctx.body = {
+        ok: 1,
+        username: ctx.session.username,
+    };
 });
 router.get('/list', async (ctx, next) => {
     // ctx.cookies.set('username', 'youngs');
